@@ -1,0 +1,13 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+<title>GIFS</title>
+</head>
+<body>
+<ul>
+{% for text,url in giflinks %}
+<li><a href="{{ url }}">{{ text }}</a></li>
+{% endfor %}
+</ul>
+</body>
+</html>

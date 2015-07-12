@@ -67,24 +67,7 @@ print("Discussion ids obtained")
 # episode = r.get_submission(submission_id = sub_ids[0])
 episode = r.get_submission(submission_id = '2rza0f')
 
-# Replaces episode.comments with version with full comments, replaces MoreComments
-# Really slow, might be worth skipping? Default comments loaded are first 200 or so
-print("There are", episode.num_comments,"comments, up to 200 loaded")
-if replace_comments:
-    print("Replacing 'MoreComments' instances with comments...")
-    episode.replace_more_comments(limit=None, threshold=0)
-else: # remove MoreComments
-    print("Deleting all 'MoreComments' instances without replacing...")
-    episode.replace_more_comments(limit=0, threshold=0)
-
-print("Flattening comments for iteration...")
-flat_comments = praw.helpers.flatten_tree(episode.comments)
-sum_comments = "".join([comment.body_html for comment in flat_comments])
-
-soup_com = BeautifulSoup(sum_comments, 'html.parser')
-links = [(link.text,link.get('href')) for link in soup_com.find_all('a') if "http" == link.get('href')[:4]]
-
-#print(sorted(links))
+links = submission_comments_scrape(episode)
 
 env = Environment(loader = FileSystemLoader(r'.\templates'))
 template = env.get_template('gifs.jinja2')

@@ -6,6 +6,7 @@ from bs4 import BeautifulSoup
 import time
 import os
 import codecs
+from collections import OrderedDict
 
 replace_comments = 0
 
@@ -64,18 +65,22 @@ for link in soup.find_all('a'):
         sub_ids.append(sub_id)
 print("Discussion ids obtained")
 
-# episode = r.get_submission(submission_id = sub_ids[0])
-episode = r.get_submission(submission_id = '2rza0f')
+eps_dict = OrderedDict([])
 
+#episode = r.get_submission(submission_id = sub_id)
+episode = r.get_submission(submission_id = '2rza0f')
 links = submission_comments_scrape(episode)
+eps_dict[episode.title]=links
 
 env = Environment(loader = FileSystemLoader(r'.\templates'))
 template = env.get_template('gifs.jinja2')
-ren = template.render(giflinks=links)
+ren = template.render(eps=eps_dict)
 
 with codecs.open("gifs.html", "w", "utf-8-sig") as text_file: # http://stackoverflow.com/a/934203
     text_file.write(ren)
 webbrowser.open('file://' + os.path.realpath("gifs.html"))
+
+
 
 # https://www.reddit.com/r/anime/comments/2rza0f/spoilers_rollinggirls_episode_1_discussion/
 # http://redd.it/2rza0f

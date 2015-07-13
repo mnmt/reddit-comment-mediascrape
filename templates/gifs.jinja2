@@ -5,8 +5,11 @@
 </head>
 <body>
 <ul>
-{% for text,url in giflinks %}
+{% for title_key in eps %}
+<h1>{{ title_key }}</h1>
+{% for text,url in eps[title_key] %}
 <li><a href="{{ url }}">{{ text }}</a></li>
+{% endfor %}
 {% endfor %}
 </ul>
 </body>

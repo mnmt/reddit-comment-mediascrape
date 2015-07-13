@@ -36,7 +36,7 @@ r = praw.Reddit(user_agent=user_agent)
 
 print("Small anime subreddit scan")
 anime = r.get_subreddit('anime')
-anime_hot5 = list(anime.get_hot(limit=10))
+anime_hot5 = list(anime.get_hot(limit=5))
 [print(x) for x in anime_hot5]
 print("|+|"*18)
 
@@ -67,11 +67,11 @@ print("Discussion ids obtained")
 
 eps_dict = OrderedDict([])
 
-for sub_id in sub_ids[:10]:
+for sub_id in sub_ids[:12]:
     episode = r.get_submission(submission_id = sub_id)
     #episode = r.get_submission(submission_id = '2rza0f')
-    links = submission_comments_scrape(episode)
-    eps_dict[episode.title]=links
+    links = submission_comments_scrape(episode) # List of (text,url) tuples
+    eps_dict[sub_id]={"title":episode.title,"links":links}
 
 env = Environment(loader = FileSystemLoader(r'.\templates'))
 template = env.get_template('gifs.jinja2')

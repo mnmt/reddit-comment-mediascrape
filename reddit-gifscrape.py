@@ -67,10 +67,11 @@ print("Discussion ids obtained")
 
 eps_dict = OrderedDict([])
 
-#episode = r.get_submission(submission_id = sub_id)
-episode = r.get_submission(submission_id = '2rza0f')
-links = submission_comments_scrape(episode)
-eps_dict[episode.title]=links
+for sub_id in sub_ids[:10]:
+    episode = r.get_submission(submission_id = sub_id)
+    #episode = r.get_submission(submission_id = '2rza0f')
+    links = submission_comments_scrape(episode)
+    eps_dict[episode.title]=links
 
 env = Environment(loader = FileSystemLoader(r'.\templates'))
 template = env.get_template('gifs.jinja2')
